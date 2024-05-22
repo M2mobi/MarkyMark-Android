@@ -26,6 +26,7 @@ class ImageDisplayItem(private val mContext: Context, private val mImageLoader: 
         val imageView = ImageView(mContext, null, R.attr.MarkdownImageStyle)
         imageView.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+        imageView.contentDescription = pMarkdownItem.altText
         mImageLoader.loadImage(imageView, pMarkdownItem.filename)
         return imageView
     }
