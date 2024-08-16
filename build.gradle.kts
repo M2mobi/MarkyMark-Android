@@ -37,7 +37,7 @@ subprojects {
 
         dependencies {
             detektPlugins(libs.detekt.formatting)
-            detektPlugins("com.twitter.compose.rules:detekt:0.0.20")
+            detektPlugins("ru.kode:detekt-rules-compose:1.3.0")
         }
 
         tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {

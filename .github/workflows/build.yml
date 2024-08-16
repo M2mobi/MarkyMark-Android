@@ -20,38 +20,48 @@ jobs:
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v4
+
       - name: 'Setup JDK'
         uses: actions/setup-java@v4
         with:
           java-version: 17
           distribution: temurin
+
       - name: 'Setup Android SDK'
         uses: android-actions/setup-android@v3
+
       - name: 'Setup Gradle'
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
         with:
           dependency-graph: generate-and-submit
+
       - name: 'Configure Gradle Properties'
         run: echo 'org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=2g -XX:+HeapDumpOnOutOfMemoryError' >> gradle.properties
+
       - name: 'Assemble'
         run: ./gradlew assembleDebug
+
       - name: 'Detekt'
         run: ./gradlew detektDebug
+
       - name: 'Upload Detekt Report Artifacts'
         uses: actions/upload-artifact@v4
         with:
           name: 'Detekt Results'
           path: |
             **/build/reports/detekt/*.md
+
       - name: 'Android Lint'
         run: ./gradlew lintDebug
+
       - name: 'Upload Lint Report Artifacts'
         uses: actions/upload-artifact@v4
         with:
           name: 'Lint Results'
           path: | 
             **/build/reports/lint/*.html
-      - uses: yutailang0119/action-android-lint@v3
+
+      - uses: yutailang0119/action-android-lint@v4
         with:
           report-path: |
             **/build/reports/lint/*.xml

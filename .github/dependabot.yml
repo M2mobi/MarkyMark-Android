@@ -7,3 +7,12 @@ updates:
       interval: "daily"
       time: "02:00"
       timezone: "Europe/Amsterdam"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: 'v3/develop'
+    schedule:
+      interval: "weekly"
+    groups:
+      actions:
+        patterns:
+          - '*'
