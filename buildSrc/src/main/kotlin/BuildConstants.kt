@@ -18,8 +18,7 @@
 
 object BuildConstants {
 
-    const val VersionCode = 3_001
-    const val VersionName = "3.0.0-alpha02"
+    const val VersionName = "3.0.0-alpha03"
 
     const val Namespace = "com.moveagency.markymark"
 

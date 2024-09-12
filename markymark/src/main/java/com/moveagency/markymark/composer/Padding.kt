@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Move
+ * Copyright © 2024 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -21,51 +21,15 @@
 package com.moveagency.markymark.composer
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-
-/**
- * MarkyMark version of Jetpack Compose's [PaddingValues][androidx.compose.foundation.layout.PaddingValues]. This is
- * needed as padding values only allows the retrieval of its values from a density scope.
- */
-@Immutable
-data class Padding(
-    val start: Dp = 0.dp,
-    val top: Dp = 0.dp,
-    val end: Dp = 0.dp,
-    val bottom: Dp = 0.dp,
-)
+import com.moveagency.markymark.theme.Padding
 
 /**
  * See [Padding].
  */
 @Stable
-fun Padding(horizontal: Dp = 0.dp, vertical: Dp = 0.dp) = Padding(
-    start = horizontal,
-    top = vertical,
-    end = horizontal,
-    bottom = vertical,
-)
-
-/**
- * See [Padding].
- */
-@Stable
-fun Padding(all: Dp = 0.dp) = Padding(
-    start = all,
-    top = all,
-    end = all,
-    bottom = all,
-)
-
-/**
- * See [Padding].
- */
-@Stable
-fun Modifier.padding(padding: Padding) = padding(
+fun Modifier.padding(padding: Padding) = this.padding(
     start = padding.start,
     top = padding.top,
     end = padding.end,
@@ -76,34 +40,34 @@ fun Modifier.padding(padding: Padding) = padding(
  * See [Padding].
  */
 @Stable
-fun Modifier.paddingStart(padding: Padding) = padding(start = padding.start)
+fun Modifier.paddingStart(padding: Padding) = this.padding(start = padding.start)
 
 /**
  * See [Padding].
  */
 @Stable
-fun Modifier.paddingTop(padding: Padding) = padding(top = padding.top)
+fun Modifier.paddingTop(padding: Padding) = this.padding(top = padding.top)
 
 /**
  * See [Padding].
  */
 @Stable
-fun Modifier.paddingEnd(padding: Padding) = padding(end = padding.end)
+fun Modifier.paddingEnd(padding: Padding) = this.padding(end = padding.end)
 
 /**
  * See [Padding].
  */
 @Stable
-fun Modifier.paddingBottom(padding: Padding) = padding(bottom = padding.bottom)
+fun Modifier.paddingBottom(padding: Padding) = this.padding(bottom = padding.bottom)
 
 /**
  * See [Padding].
  */
 @Stable
-fun Modifier.paddingHorizontal(padding: Padding) = padding(start = padding.start, end = padding.end)
+fun Modifier.paddingHorizontal(padding: Padding) = this.padding(start = padding.start, end = padding.end)
 
 /**
  * See [Padding].
  */
 @Stable
-fun Modifier.paddingVertical(padding: Padding) = padding(top = padding.top, bottom = padding.bottom)
+fun Modifier.paddingVertical(padding: Padding) = this.padding(top = padding.top, bottom = padding.bottom)

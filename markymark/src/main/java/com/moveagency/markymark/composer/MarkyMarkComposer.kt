@@ -18,11 +18,9 @@
 
 package com.moveagency.markymark.composer
 
-import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.ui.Modifier
 import com.moveagency.markymark.model.composable.ComposableStableNode
-import com.moveagency.markymark.theme.ComposableStyles
 import kotlinx.collections.immutable.ImmutableList
 
 /**
@@ -33,11 +31,8 @@ import kotlinx.collections.immutable.ImmutableList
 interface MarkyMarkComposer {
 
     /**
-     * Create [LazyListScope.item]s belonging to [nodes].
+     * Create the composable elements from [nodes].
      */
-    fun LazyListScope.createNodes(
-        modifier: Modifier = Modifier,
-        nodes: ImmutableList<ComposableStableNode>,
-        styles: ComposableStyles,
-    )
+    @Composable
+    fun createNodes(nodes: ImmutableList<ComposableStableNode>)
 }

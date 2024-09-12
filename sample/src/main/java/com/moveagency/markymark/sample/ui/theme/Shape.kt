@@ -25,4 +25,5 @@ object Shape {
 
     val QuoteShape = RoundedCornerShape(24.dp)
     val CodeBlockShape = RoundedCornerShape(8.dp)
+    val ImageShape = RoundedCornerShape(16.dp)
 }

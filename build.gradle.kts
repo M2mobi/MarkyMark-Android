@@ -1,4 +1,5 @@
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
@@ -20,6 +21,16 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+    }
+}
+
+subprojects {
+    tasks.withType(KotlinCompile::class) {
+        compilerOptions.freeCompilerArgs.addAll(
+            "-Xcontext-receivers",
+            "-Xskip-prerelease-check",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+        )
     }
 }
 

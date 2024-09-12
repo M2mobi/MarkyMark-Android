@@ -16,23 +16,20 @@
  * IN THE SOFTWARE.
  */
 
-package com.moveagency.markymark.composable
+package com.moveagency.markymark.theme.heading
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import com.moveagency.markymark.composer.padding
-import com.moveagency.markymark.theme.RuleStyle
+import androidx.compose.runtime.Immutable
 
-@Composable
-internal fun Rule(
-    style: RuleStyle,
-    modifier: Modifier = Modifier,
-) = Spacer(
-    modifier = modifier
-        .padding(style.padding)
-        .height(style.thickness)
-        .background(style.color)
+/**
+ * Theming attributes used for rendering [Headline]s with [MarkyMarkHeadline]. See
+ * [HeadingLevelStyle] for more details.
+ */
+@Immutable
+data class HeadingsStyle(
+    val h1: HeadingLevelStyle,
+    val h2: HeadingLevelStyle,
+    val h3: HeadingLevelStyle,
+    val h4: HeadingLevelStyle,
+    val h5: HeadingLevelStyle,
+    val h6: HeadingLevelStyle,
 )

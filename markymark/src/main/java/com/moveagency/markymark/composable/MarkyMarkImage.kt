@@ -19,26 +19,34 @@
 package com.moveagency.markymark.composable
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale.Companion.FillWidth
+import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.moveagency.markymark.composer.padding
+import com.moveagency.markymark.model.NodeMetadata.Companion.Root
 import com.moveagency.markymark.model.composable.Image
-import com.moveagency.markymark.theme.ImageStyle
+import com.moveagency.markymark.theme.LocalMarkyMarkTheme
+import com.moveagency.markymark.theme.image.ImageStyle
 
 @Composable
-internal fun Image(
+fun MarkyMarkImage(
     node: Image,
-    style: ImageStyle,
     modifier: Modifier = Modifier,
 ) {
+    val style = LocalMarkyMarkTheme.current.styles.composable.image
     if (node.title == null) {
         AsyncImage(
-            modifier = modifier.padding(style.padding),
             model = node.url,
             contentDescription = node.altText,
+            modifier = modifier
+                .padding(style.padding)
+                .clip(style.shape),
             contentScale = FillWidth,
         )
     } else {
@@ -58,19 +66,59 @@ private fun CaptionedImage(
     style: ImageStyle,
     modifier: Modifier = Modifier,
 ) {
+    val colors = LocalMarkyMarkColors.current.image
     Column(modifier.padding(style.padding)) {
         AsyncImage(
             model = node.url,
             contentDescription = node.altText,
+            modifier = Modifier.clip(style.shape),
             contentScale = FillWidth,
         )
 
-        Text(
-            modifier = Modifier
-                .padding(style.captionPadding)
-                .align(style.captionAlignment),
-            text = title,
-            style = style.captionTextStyle,
-        )
+        SelectionContainer(
+            Modifier
+                .padding(style.caption.padding)
+                .align(style.caption.alignment)
+        ) {
+            Text(
+                text = title,
+                color = colors.caption,
+                style = style.caption.textStyle,
+            )
+        }
     }
+}
+
+@Preview
+@Composable
+private fun PreviewImage() {
+    val node = Image(
+        metadata = Root,
+        url = "https://images.unsplash.com/photo-1459262838948-3e2de6c1ec80?q=80&w=3269&auto=format&fit=crop&ixlib" +
+            "=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        altText = "A cute koala",
+        title = null,
+    )
+
+    MarkyMarkImage(
+        node = node,
+        modifier = Modifier.fillMaxWidth(),
+    )
+}
+
+@Preview
+@Composable
+private fun PreviewImageCaptioned() {
+    val node = Image(
+        metadata = Root,
+        url = "https://images.unsplash.com/photo-1459262838948-3e2de6c1ec80?q=80&w=3269&auto=format&fit=crop&ixlib" +
+            "=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        altText = "A cute koala",
+        title = "A cute koala in a tree",
+    )
+
+    MarkyMarkImage(
+        node = node,
+        modifier = Modifier.fillMaxWidth(),
+    )
 }

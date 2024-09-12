@@ -18,16 +18,18 @@
 
 package com.moveagency.markymark.composable
 
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.moveagency.markymark.MarkyMark
-import com.moveagency.markymark.MarkyMark.theme
+import com.moveagency.markymark.composer.paddingVertical
 import com.moveagency.markymark.converter.MarkyMarkConverter.convertToStableNodes
 import com.moveagency.markymark.model.composable.ComposableStableNode
+import com.moveagency.markymark.theme.LocalMarkyMarkTheme
 import com.vladsch.flexmark.parser.Parser
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -36,28 +38,27 @@ import kotlinx.collections.immutable.persistentListOf
 fun Markdown(
     markdown: String,
     modifier: Modifier = Modifier,
-    windowInsets: WindowInsets = WindowInsets.systemBars,
+    scrollState: ScrollState = rememberScrollState(),
 ) {
     val options = MarkyMark.options
     val parser = remember(options) { Parser.Builder(options.flexmarkOptions).build() }
     val document = remember(parser, markdown) { parser.parse(markdown) }
 
     var nodes by remember { mutableStateOf<ImmutableList<ComposableStableNode>>(persistentListOf()) }
-    LaunchedEffect(document) { nodes = convertToStableNodes(document) }
+    LaunchedEffect(parser, document) { nodes = convertToStableNodes(document) }
 
     val composer = MarkyMark.options.composer
-    val styles = theme.composableStyles
 
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = windowInsets.asPaddingValues(),
+    val screenPadding = LocalMarkyMarkTheme.current.root.screenPadding
+
+    Column(
+        modifier = modifier
+            .verticalScroll(scrollState)
+            .systemBarsPadding()
+            .paddingVertical(screenPadding),
     ) {
-        composer.run {
-            createNodes(
-                modifier = Modifier,
-                nodes = nodes,
-                styles = styles,
-            )
+        CompositionLocalProvider(LocalMarkyMarkColors provides LocalMarkyMarkTheme.current.colors) {
+            composer.createNodes(nodes)
         }
     }
 }

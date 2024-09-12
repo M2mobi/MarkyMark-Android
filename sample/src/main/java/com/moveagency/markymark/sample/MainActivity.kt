@@ -26,7 +26,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.moveagency.markymark.PreviewMarkdown
 import com.moveagency.markymark.composable.Markdown
@@ -51,8 +50,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SampleTheme {
-                val isDarkTheme = isSystemInDarkTheme()
-                val background = remember(isDarkTheme) { if (isDarkTheme) Black else WarmLightGrey }
+                val background = if (isSystemInDarkTheme()) Black else WarmLightGrey
                 Markdown(
                     modifier = Modifier.background(background),
                     markdown = PreviewMarkdown,

@@ -14,7 +14,7 @@ android {
     defaultConfig {
         minSdk = BuildConstants.MinSdk
         targetSdk = BuildConstants.TargetSdk
-        versionCode = BuildConstants.VersionCode
+        versionCode = 1
         versionName = BuildConstants.VersionName
     }
 

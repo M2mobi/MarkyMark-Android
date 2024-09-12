@@ -19,35 +19,37 @@
 package com.moveagency.markymark.composable
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.isSpecified
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.moveagency.markymark.composer.padding
-import com.moveagency.markymark.model.composable.CodeBlock
-import com.moveagency.markymark.theme.CodeBlockStyle
+import com.moveagency.markymark.theme.LocalMarkyMarkTheme
 
 @Composable
-internal fun CodeBlock(
-    node: CodeBlock,
-    style: CodeBlockStyle,
-    modifier: Modifier = Modifier,
-) = Row(
-    modifier = Modifier
-        .horizontalScroll(rememberScrollState())
-        .then(modifier)
-) {
-    Text(
+fun MarkyMarkRule(modifier: Modifier = Modifier) {
+    val style = LocalMarkyMarkTheme.current.styles.composable.rule
+    val colors = LocalMarkyMarkColors.current.rule
+    Spacer(
+        modifier = modifier
+            .padding(style.padding)
+            .height(style.thickness)
+            .background(colors.background)
+    )
+}
+
+@Preview
+@Composable
+private fun PreviewRule() {
+    MarkyMarkRule(
         modifier = Modifier
-            .padding(style.outerPadding)
-            .clip(style.shape)
-            .then(if (style.background.isSpecified) Modifier.background(style.background) else Modifier)
-            .padding(style.innerPadding),
-        style = style.textStyle,
-        text = node.content,
+            .background(Color.White)
+            .padding(vertical = 20.dp)
+            .fillMaxWidth()
     )
 }

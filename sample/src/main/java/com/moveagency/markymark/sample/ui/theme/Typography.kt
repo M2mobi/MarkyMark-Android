@@ -34,32 +34,32 @@ object Typography {
 
     private val BaseStyle = TextStyle(fontFamily = SpaceGrotesk)
 
-    val Heading1 = BaseStyle.copy(
+    val H1 = BaseStyle.copy(
         fontSize = 48.sp,
         lineHeight = 64.sp,
         fontWeight = Normal,
     )
-    val Heading2 = BaseStyle.copy(
+    val H2 = BaseStyle.copy(
         fontSize = 40.sp,
         lineHeight = 56.sp,
         fontWeight = Normal,
     )
-    val Heading3 = BaseStyle.copy(
+    val H3 = BaseStyle.copy(
         fontSize = 32.sp,
         lineHeight = 48.sp,
         fontWeight = Normal,
     )
-    val Heading4 = BaseStyle.copy(
+    val H4 = BaseStyle.copy(
         fontSize = 24.sp,
         lineHeight = 40.sp,
         fontWeight = Bold,
     )
-    val Heading5 = BaseStyle.copy(
+    val H5 = BaseStyle.copy(
         fontSize = 20.sp,
         lineHeight = 28.sp,
         fontWeight = Bold,
     )
-    val Heading6 = BaseStyle.copy(
+    val H6 = BaseStyle.copy(
         fontSize = 16.sp,
         lineHeight = 32.sp,
         fontWeight = Bold,

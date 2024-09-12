@@ -32,6 +32,6 @@ import kotlinx.collections.immutable.ImmutableList
 internal fun annotate(
     nodes: ImmutableList<AnnotatedStableNode>,
 ): AnnotatedString {
-    val styles = MarkyMark.theme.annotatedStyles
+    val styles = MarkyMark.theme.styles.annotated
     return MarkyMark.options.annotator.annotate(nodes = nodes, styles = styles)
 }

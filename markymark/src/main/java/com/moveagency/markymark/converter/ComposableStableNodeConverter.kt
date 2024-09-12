@@ -78,12 +78,12 @@ object ComposableStableNodeConverter {
             metadata = metadata,
             children = convertToAnnotatedNodes(metadata = metadata, nodes = heading.children),
             headingLevel = when (heading.level) {
-                1 -> Headline.Level.HEADING1
-                2 -> Headline.Level.HEADING2
-                3 -> Headline.Level.HEADING3
-                4 -> Headline.Level.HEADING4
-                5 -> Headline.Level.HEADING5
-                else -> Headline.Level.HEADING6
+                1 -> Headline.Level.Heading1
+                2 -> Headline.Level.Heading2
+                3 -> Headline.Level.Heading3
+                4 -> Headline.Level.Heading4
+                5 -> Headline.Level.Heading5
+                else -> Headline.Level.Heading6
             }
         )
     }

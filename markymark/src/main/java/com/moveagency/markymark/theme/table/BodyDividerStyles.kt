@@ -16,23 +16,15 @@
  * IN THE SOFTWARE.
  */
 
-package com.moveagency.markymark.composable
+package com.moveagency.markymark.theme.table
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import com.moveagency.markymark.composer.padding
-import com.moveagency.markymark.model.composable.Headline
-import com.moveagency.markymark.theme.HeadingLevelStyle
+import androidx.compose.runtime.Immutable
 
-@Composable
-internal fun Headline(
-    node: Headline,
-    style: HeadingLevelStyle,
-    modifier: Modifier = Modifier,
-) {
-    TextNode(
-        modifier = modifier.padding(style.padding),
-        nodes = node.children,
-        style = style.textStyle,
-    )
-}
+/**
+ * Theming attributes used when rendering the body dividers of a table.
+ */
+@Immutable
+data class BodyDividerStyles(
+    val horizontal: TableDividerStyle,
+    val vertical: TableDividerStyle,
+)

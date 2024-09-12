@@ -182,6 +182,104 @@ __*Bold and Italic*__
 >
 > __~ Artemis by Andy Weir__
 
+### Code Blocks in Quotes
+
+> ```kotlin
+> fun something() {
+>     println("Something happened!"
+> }
+> ```
+
+### Headers in Quotes
+
+> # Heading 1
+> 
+> Heading 1 content text
+>
+> ## Heading 2
+>
+> Heading 2 content text
+>
+> ### Heading 3
+>
+> Heading 3 content text
+>
+> #### Heading 4
+> 
+> Heading 4 content text
+>
+> ##### Heading 5
+>
+> Heading 5 content text
+>
+> ###### Heading 6
+>
+> Heading 6 content text
+>
+> > # Heading 1
+> >
+> > Heading 1 content text
+> >
+> > ## Heading 2
+> >
+> > Heading 2 content text
+> >
+> > ### Heading 3
+> >
+> > Heading 3 content text
+> >
+> > #### Heading 4
+> > 
+> > Heading 4 content text
+> >
+> > ##### Heading 5
+> >
+> > Heading 5 content text
+> >
+> > ###### Heading 6
+> >
+> > Heading 6 content text
+> >
+> > > # Heading 1
+> > >
+> > > Heading 1 content text
+> > >
+> > > ## Heading 2
+> > >
+> > > Heading 2 content text
+> > >
+> > > ### Heading 3
+> > >
+> > > Heading 3 content text
+> > >
+> > > #### Heading 4
+> > > 
+> > > Heading 4 content text
+> > >
+> > > ##### Heading 5
+> > >
+> > > Heading 5 content text
+> > >
+> > > ###### Heading 6
+> > > 
+> > > Heading 6 content text
+
+### Tables in Quotes
+
+> | __New Business__    |
+> |:--------------------|
+> | info@moveagency.com |
+
+### Images in Quotes
+
+#### Without a Caption
+
+> ![A photo showing the internal reveal of the new company name on a screen in the background, Move, in the foreground confetti and employees can be seen](https://global-uploads.webflow.com/6315fa597257024bb7fea6c4/635f950391fa6db43eea3a18_c7572a87-7f89-415a-923b-fefae1e85d7d.webp)
+
+#### With a Caption
+
+> ![A photo of the outside of the Move Amsterdam office](https://global-uploads.webflow.com/6315fa597257021d73fea691/632c47a8e4e4c81d8c461997_contact-header.webp "Figure 1. The Move Amsterdam office (3rd floor)")
+
 ## Lists
 
 ### Unordered
@@ -237,6 +335,8 @@ __*Bold and Italic*__
         * Sub-Sub-List Item 2
         * Sub-Sub-List Item 3
         * Sub-Sub-List Item 4
+            + Sub-Sub-Sub-List Item 1
+            + Sub-Sub-Sub-List Item 2
     - Sub-List Item 3
     - Sub-List Item 3
 + List Item 3

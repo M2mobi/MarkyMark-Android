@@ -59,19 +59,19 @@ open class DefaultMarkyMarkAnnotator : MarkyMarkAnnotator {
     }
 
     protected open fun AnnotatedString.Builder.annotateBold(bold: Bold, styles: AnnotatedStyles) {
-        pushStyle(styles.boldStyle)
+        pushStyle(styles.bold)
         annotateChildren(nodes = bold.children, styles = styles)
         pop()
     }
 
     protected open fun AnnotatedString.Builder.annotateCode(code: Code, styles: AnnotatedStyles) {
-        pushStyle(styles.codeStyle)
+        pushStyle(styles.code)
         annotateChildren(nodes = code.children, styles = styles)
         pop()
     }
 
     protected open fun AnnotatedString.Builder.annotateItalic(italic: Italic, styles: AnnotatedStyles) {
-        pushStyle(styles.italicStyle)
+        pushStyle(styles.italic)
         annotateChildren(nodes = italic.children, styles = styles)
         pop()
     }
@@ -80,13 +80,13 @@ open class DefaultMarkyMarkAnnotator : MarkyMarkAnnotator {
         strikethrough: Strikethrough,
         styles: AnnotatedStyles
     ) {
-        pushStyle(styles.strikethroughStyle)
+        pushStyle(styles.strikethrough)
         annotateChildren(nodes = strikethrough.children, styles = styles)
         pop()
     }
 
     protected open fun AnnotatedString.Builder.annotateLink(link: Link, styles: AnnotatedStyles) {
-        pushStyle(styles.linkStyle)
+        pushStyle(styles.link)
         pushStringAnnotation(tag = TAG_LINK, annotation = link.url)
         annotateChildren(nodes = link.children, styles = styles)
         pop()
@@ -94,7 +94,7 @@ open class DefaultMarkyMarkAnnotator : MarkyMarkAnnotator {
     }
 
     protected open fun AnnotatedString.Builder.annotateEmailLink(link: EmailLink, styles: AnnotatedStyles) {
-        pushStyle(styles.linkStyle)
+        pushStyle(styles.link)
         pushStringAnnotation(tag = TAG_LINK, annotation = "$MailToPrefix${link.email}")
         append(link.email)
         pop()
@@ -102,13 +102,13 @@ open class DefaultMarkyMarkAnnotator : MarkyMarkAnnotator {
     }
 
     protected open fun AnnotatedString.Builder.annotateSubscript(subscript: Subscript, styles: AnnotatedStyles) {
-        pushStyle(styles.subscriptStyle)
+        pushStyle(styles.subscript)
         annotateChildren(nodes = subscript.children, styles = styles)
         pop()
     }
 
     protected open fun AnnotatedString.Builder.annotateSuperscript(superscript: Superscript, styles: AnnotatedStyles) {
-        pushStyle(styles.superscriptStyle)
+        pushStyle(styles.superscript)
         annotateChildren(nodes = superscript.children, styles = styles)
         pop()
     }

@@ -55,7 +55,7 @@ data class Headline(
          * # Heading 1
          * ```
          */
-        HEADING1,
+        Heading1,
 
         /**
          * __Syntax:__
@@ -64,7 +64,7 @@ data class Headline(
          * ## Heading 2
          * ```
          */
-        HEADING2,
+        Heading2,
 
         /**
          * __Syntax:__
@@ -73,7 +73,7 @@ data class Headline(
          * ### Heading 3
          * ```
          */
-        HEADING3,
+        Heading3,
 
         /**
          * __Syntax:__
@@ -82,7 +82,7 @@ data class Headline(
          * #### Heading 4
          * ```
          */
-        HEADING4,
+        Heading4,
 
         /**
          * __Syntax:__
@@ -91,7 +91,7 @@ data class Headline(
          * ##### Heading 5
          * ```
          */
-        HEADING5,
+        Heading5,
 
         /**
          * __Syntax:__
@@ -100,6 +100,6 @@ data class Headline(
          * ###### Heading 6
          * ```
          */
-        HEADING6,
+        Heading6,
     }
 }

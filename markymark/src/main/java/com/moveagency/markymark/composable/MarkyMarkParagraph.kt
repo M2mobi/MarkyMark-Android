@@ -18,39 +18,25 @@
 
 package com.moveagency.markymark.composable
 
-import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.platform.UriHandler
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextLayoutResult
-import androidx.compose.ui.text.TextStyle
-import com.moveagency.markymark.model.annotated.AnnotatedStableNode
-import kotlinx.collections.immutable.ImmutableList
-
-internal const val TAG_LINK = "TAG_LINK"
+import com.moveagency.markymark.composer.padding
+import com.moveagency.markymark.theme.LocalMarkyMarkTheme
 
 @Composable
-internal fun TextNode(
-    nodes: ImmutableList<AnnotatedStableNode>,
-    style: TextStyle,
+fun MarkyMarkParagraph(
     modifier: Modifier = Modifier,
-    onTextLayout: (TextLayoutResult) -> Unit = {},
+    content: (@Composable () -> Unit),
 ) {
-    val text = annotate(nodes = nodes)
-    val uriHandler = LocalUriHandler.current
-    ClickableText(
-        modifier = modifier,
-        text = text,
-        style = style,
-        onTextLayout = onTextLayout,
-        onClick = { onTextClicked(offset = it, text = text, uriHandler = uriHandler) },
-    )
-}
-
-private fun onTextClicked(offset: Int, text: AnnotatedString, uriHandler: UriHandler) {
-    text.getStringAnnotations(TAG_LINK, offset, offset)
-        .firstOrNull()
-        ?.let { uriHandler.openUri(it.item) }
+    val style = LocalMarkyMarkTheme.current.styles.composable.paragraph
+    val colors = LocalMarkyMarkColors.current.paragraph
+    Box(modifier = modifier.padding(style.padding)) {
+        CompositionLocalProvider(
+            LocalContentColor provides colors.text,
+            content = content,
+        )
+    }
 }
