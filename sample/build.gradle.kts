@@ -18,18 +18,9 @@ android {
         versionName = BuildConstants.VersionName
     }
 
-    signingConfigs {
-        create("release") {
-            keyAlias = properties["markymark.keystore.keyalias"].toString()
-            keyPassword = properties["markymark.keystore.keypassword"].toString()
-            storeFile = file(rootDir.absolutePath + "/" + properties["markymark.keystore.path"].toString())
-            storePassword = properties["markymark.keystore.password"].toString()
-        }
-    }
-
     buildTypes {
         release {
-            signingConfig = signingConfigs.findByName("release")
+            signingConfig = signingConfigs.findByName("debug")
             isMinifyEnabled = false
         }
     }
