@@ -18,13 +18,6 @@ android {
         versionName = BuildConstants.VersionName
     }
 
-    buildTypes {
-        release {
-            signingConfig = signingConfigs.findByName("debug")
-            isMinifyEnabled = false
-        }
-    }
-
     kotlin {
         jvmToolchain(libs.versions.jvm.get().toInt())
     }
