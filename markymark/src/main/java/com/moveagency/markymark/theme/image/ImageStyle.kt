@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -31,6 +31,7 @@ import com.moveagency.markymark.theme.Padding
 @Immutable
 data class ImageStyle(
     val shape: Shape,
+    val fullWidth: Boolean,
     val padding: Padding,
     val caption: ImageCaptionStyle,
 )

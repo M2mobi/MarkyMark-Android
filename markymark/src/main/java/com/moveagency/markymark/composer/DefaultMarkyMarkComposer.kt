@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -37,7 +37,7 @@ open class DefaultMarkyMarkComposer : MarkyMarkComposer {
 
     @Composable
     @Suppress("ComplexMethod", "LongMethod")
-    protected open fun createNode(node: ComposableStableNode) {
+    protected open fun CreateNode(node: ComposableStableNode) {
         // Doing this here allows us to exclude certain elements from the screen padding like a rule for example.
         val modifier = if (node.metadata.isRootLevel) {
             Modifier.paddingHorizontal(LocalMarkyMarkTheme.current.root.screenPadding)
@@ -48,16 +48,16 @@ open class DefaultMarkyMarkComposer : MarkyMarkComposer {
         when (node) {
             is Headline -> Headline(
                 node = node,
-                modifier = modifier.fillMaxWidth(),
+                modifier = modifier,
             )
             is Image -> Image(
-                modifier = modifier.fillMaxWidth(),
+                modifier = if (LocalMarkyMarkTheme.current.styles.composable.image.fullWidth) Modifier else modifier,
                 node = node,
             )
             is Paragraph -> Paragraph(
                 modifier = modifier,
             ) {
-                createNodes(node.children)
+                CreateNodes(node.children)
             }
             is Rule -> Rule()
             is CodeBlock -> CodeBlock(
@@ -68,7 +68,7 @@ open class DefaultMarkyMarkComposer : MarkyMarkComposer {
                 node = node,
                 modifier = modifier,
             ) {
-                createNodes(node.children)
+                CreateNodes(node.children)
             }
             is TableBlock -> TableBlock(
                 node = node,
@@ -84,7 +84,7 @@ open class DefaultMarkyMarkComposer : MarkyMarkComposer {
                             item = child,
                             indentLevel = node.metadata.listLevel,
                         )
-                        is ListNode -> createNode(child.node)
+                        is ListNode -> CreateNode(child.node)
                     }
                 }
             }
@@ -96,8 +96,8 @@ open class DefaultMarkyMarkComposer : MarkyMarkComposer {
     }
 
     @Composable
-    override fun createNodes(nodes: ImmutableList<ComposableStableNode>) {
-        for (node in nodes) createNode(node)
+    override fun CreateNodes(nodes: ImmutableList<ComposableStableNode>) {
+        for (node in nodes) CreateNode(node)
     }
 
     @Composable
@@ -129,7 +129,9 @@ open class DefaultMarkyMarkComposer : MarkyMarkComposer {
     }
 
     @Composable
-    protected open fun Rule() = MarkyMarkRule()
+    protected open fun Rule() = MarkyMarkRule(
+        modifier = Modifier.fillMaxWidth(),
+    )
 
     @Composable
     protected open fun CodeBlock(

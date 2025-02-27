@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -18,9 +18,11 @@
 
 package com.moveagency.markymark.composable
 
+import android.util.Log
 import androidx.annotation.Px
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.LocalContentColor
@@ -273,6 +275,7 @@ class TableBlockMeasurePolicy(
         val placeableCells = mutableListOf<PlaceableTableCell>()
 
         for (measurable in measurables) {
+            Log.d("[!!!]", "${measurable.layoutId}")
             val spec = measurable.layoutId as TableCellSpec
             columnWidths[spec.column] = maxOf(
                 columnWidths[spec.column] ?: style.cellMinWidth.roundToPx(),
@@ -383,19 +386,20 @@ private fun TableCell(
     cell: TableCell,
 ) {
     CompositionLocalProvider(LocalContentColor provides textColor) {
-        MarkyMarkText(
-            modifier = Modifier
-                .layoutId(TableCellSpec(row = row, column = column))
-                .padding(style.padding),
-            nodes = cell.children,
-            style = style.textStyle.copy(
-                textAlign = when (cell.alignment) {
-                    TableCell.Alignment.Start -> Start
-                    TableCell.Alignment.Center -> Center
-                    TableCell.Alignment.End -> End
-                },
-            ),
-        )
+        // Needed because the SelectionContainer gets rid of the layoutId for some reason.
+        Box(modifier = Modifier.layoutId(TableCellSpec(row = row, column = column))) {
+            MarkyMarkText(
+                modifier = Modifier.padding(style.padding),
+                nodes = cell.children,
+                style = style.textStyle.copy(
+                    textAlign = when (cell.alignment) {
+                        TableCell.Alignment.Start -> Start
+                        TableCell.Alignment.Center -> Center
+                        TableCell.Alignment.End -> End
+                    },
+                ),
+            )
+        }
     }
 }
 

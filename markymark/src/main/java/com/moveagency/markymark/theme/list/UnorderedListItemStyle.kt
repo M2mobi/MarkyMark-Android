@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -20,12 +20,12 @@
 
 package com.moveagency.markymark.theme.list
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.DrawStyle
 import androidx.compose.ui.graphics.drawscope.Stroke.Companion.DefaultCap
 import androidx.compose.ui.graphics.drawscope.Stroke.Companion.DefaultJoin
@@ -37,9 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.moveagency.markymark.model.composable.ListBlock
 import com.moveagency.markymark.theme.MarkyMarkThemeBuilderMarker
 import com.moveagency.markymark.theme.Padding
-import com.moveagency.markymark.theme.list.UnorderedListItemStyle.Indicator
-import com.moveagency.markymark.theme.list.UnorderedListItemStyle.Indicator.IndicatorDrawStyle.Stroke
-import com.moveagency.markymark.theme.list.UnorderedListItemStyle.Indicator.Shape.Rectangle
+import com.moveagency.markymark.theme.list.UnorderedListItemStyle.Indicator.Shape.Oval
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -77,19 +75,69 @@ data class UnorderedListItemStyle private constructor(
     ) {
 
         /**
-         * The shape of the indicator. Only supports ovals, rectangles, and triangles.
+         * Defines the shape of the indicator for unordered list items in a markdown renderer.
+         * This class supports several built-in shapes (ovals, rectangles, and triangles) and allows for custom shapes,
+         * paths, bitmaps, and image resources to create unique indicators.
          *
-         * - Lines can be achieved by specifying a [Rectangle] with a height much smaller than its width.
-         * - Diamonds can be achieved by specifying a [Rectangle] with equal height and width (a square) and rotating it
-         *   45°.
+         * - **Lines**: Achieved by specifying a [Rectangle] with a height significantly smaller than its width.
+         * - **Diamonds**: Achieved by specifying a [Rectangle] with equal height and width (square) and rotating it 45°.
          *
-         * More shapes can be achieved by adjusting the [size] and [rotation] of these shapes. uses your imagination!
+         * Other shapes can be created by adjusting the [size] and [rotation] properties of these shapes. Or if this is
+         * not sufficient, various custom options are provided by [CustomPath], [CustomShape], [CustomBitmap] and
+         * [CustomImageResource].
          */
-        enum class Shape {
+        sealed class Shape {
 
-            Oval,
-            Rectangle,
-            Triangle,
+            /**
+             * Represents an oval shape for the indicator.
+             */
+            data object Oval : Shape()
+
+            /**
+             * Represents a rectangular shape for the indicator.
+             */
+            data object Rectangle : Shape()
+
+            /**
+             * Represents a triangular shape for the indicator.
+             */
+            data object Triangle : Shape()
+
+            /**
+             * Allows for a custom path shape for the indicator, defined by a [Path].
+             *
+             * @property path The custom path defining the shape.
+             */
+            data class CustomPath(val creator: DrawScope.() -> Path) : Shape()
+
+            /**
+             * Allows for a custom shape for the indicator, defined by an [androidx.compose.ui.graphics.Shape].
+             *
+             * @property shape The custom shape to use as the indicator.
+             */
+            data class CustomShape(val shape: androidx.compose.ui.graphics.Shape) : Shape()
+
+            /**
+             * Allows for a custom bitmap to be used as the indicator.
+             *
+             * @property bitmap The custom bitmap to use as the indicator.
+             * @property tint Whether the bitmap should have a [ColorFilter.tint] applied.
+             */
+            data class CustomBitmap(
+                val bitmap: ImageBitmap,
+                val tint: Boolean,
+            ) : Shape()
+
+            /**
+             * Allows for a custom image resource to be used as the indicator, specified by a resource ID.
+             *
+             * @property resId The resource ID of the custom image to use as the indicator.
+             * @property tint Whether the image should have a [ColorFilter.tint] applied.
+             */
+            data class CustomImageResource(
+                @DrawableRes val resId: Int,
+                val tint: Boolean,
+            ) : Shape()
         }
 
         /**
@@ -127,7 +175,7 @@ data class UnorderedListItemStyle private constructor(
             /**
              * The shape of the indicator. Default is [Shape.Oval].
              */
-            var shape = Shape.Oval
+            var shape: Shape = Oval
 
             /**
              * The size of the indicator. Default is `6.dp x 6.dp`.

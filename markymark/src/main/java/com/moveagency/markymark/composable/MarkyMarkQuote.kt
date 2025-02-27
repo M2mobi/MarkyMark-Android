@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -25,6 +25,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.isSpecified
@@ -67,10 +68,12 @@ fun MarkyMarkQuote(
                         Ltr -> Offset.Zero
                         Rtl -> Offset(x = size.width - thicknessPx, y = 0F)
                     }
-                    drawRect(
+                    val radius = theme.indicatorRadius.toPx()
+                    drawRoundRect(
                         color = theme.indicator,
                         topLeft = indicatorOffset,
                         size = Size(width = thicknessPx, height = size.height),
+                        cornerRadius = CornerRadius(x = radius, y = radius),
                     )
                 }
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -23,6 +23,8 @@ package com.moveagency.markymark.theme.quote
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Transparent
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.moveagency.markymark.theme.MarkyMarkColors
 import com.moveagency.markymark.theme.MarkyMarkThemeBuilderMarker
 
@@ -37,6 +39,7 @@ import com.moveagency.markymark.theme.MarkyMarkThemeBuilderMarker
 data class BlockQuoteTheme private constructor(
     val background: Color,
     val indicator: Color,
+    val indicatorRadius: Dp,
     val colors: MarkyMarkColors?,
 ) {
 
@@ -56,6 +59,8 @@ data class BlockQuoteTheme private constructor(
          */
         var indicator = Transparent
 
+        var indicatorRadius = 0.dp
+
         /**
          * Builder for configuring the theme of the colors used within the block quote.
          */
@@ -71,6 +76,7 @@ data class BlockQuoteTheme private constructor(
         fun include(builder: Builder) {
             background = builder.background
             indicator = builder.indicator
+            indicatorRadius = builder.indicatorRadius
             colors = builder.colors
         }
 
@@ -84,6 +90,7 @@ data class BlockQuoteTheme private constructor(
         fun include(theme: BlockQuoteTheme) {
             background = theme.background
             indicator = theme.indicator
+            indicatorRadius = theme.indicatorRadius
             theme.colors?.let {
                 colors = MarkyMarkColors.Builder().apply { include(it) }
             }
@@ -107,6 +114,7 @@ data class BlockQuoteTheme private constructor(
         internal fun build() = BlockQuoteTheme(
             background = background,
             indicator = indicator,
+            indicatorRadius = indicatorRadius,
             colors = colors?.build(),
         )
     }

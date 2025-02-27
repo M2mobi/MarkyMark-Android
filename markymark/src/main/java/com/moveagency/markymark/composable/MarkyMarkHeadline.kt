@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -25,6 +25,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import com.moveagency.markymark.composer.padding
 import com.moveagency.markymark.model.NodeMetadata.Companion.Root
@@ -62,7 +64,9 @@ fun MarkyMarkHeadline(
 
     CompositionLocalProvider(LocalContentColor provides color) {
         MarkyMarkText(
-            modifier = modifier.padding(style.padding),
+            modifier = modifier
+                .padding(style.padding)
+                .semantics { heading() },
             nodes = node.children,
             style = style.textStyle,
         )

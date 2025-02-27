@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -58,7 +58,7 @@ fun Markdown(
             .paddingVertical(screenPadding),
     ) {
         CompositionLocalProvider(LocalMarkyMarkColors provides LocalMarkyMarkTheme.current.colors) {
-            composer.createNodes(nodes)
+            composer.CreateNodes(nodes)
         }
     }
 }

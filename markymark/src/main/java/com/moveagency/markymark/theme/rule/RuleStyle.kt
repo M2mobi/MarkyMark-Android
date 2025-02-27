@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -21,6 +21,8 @@
 package com.moveagency.markymark.theme.rule
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.moveagency.markymark.composable.MarkyMarkRule
@@ -37,6 +39,7 @@ import com.moveagency.markymark.theme.Padding
 @Immutable
 data class RuleStyle private constructor(
     val thickness: Dp,
+    val shape: Shape,
     val padding: Padding,
 ) {
 
@@ -52,6 +55,11 @@ data class RuleStyle private constructor(
         var thickness = 1.dp
 
         /**
+         * The shape of the rule. Default is [RectangleShape].
+         */
+        var shape = RectangleShape
+
+        /**
          * Builder for configuring the padding around the rule.
          */
         private var padding = Padding.Builder()
@@ -65,6 +73,7 @@ data class RuleStyle private constructor(
          */
         fun include(builder: Builder) {
             padding = builder.padding
+            shape = builder.shape
             thickness = builder.thickness
         }
 
@@ -77,6 +86,7 @@ data class RuleStyle private constructor(
          */
         fun include(style: RuleStyle) {
             thickness = style.thickness
+            shape = style.shape
             padding.include(style.padding)
         }
 
@@ -94,6 +104,7 @@ data class RuleStyle private constructor(
          */
         internal fun build() = RuleStyle(
             thickness = thickness,
+            shape = shape,
             padding = padding.build(),
         )
     }

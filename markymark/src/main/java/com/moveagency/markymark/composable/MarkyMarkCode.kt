@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -20,20 +20,26 @@ package com.moveagency.markymark.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.tooling.preview.Preview
 import com.moveagency.markymark.composer.padding
 import com.moveagency.markymark.model.NodeMetadata.Companion.Root
 import com.moveagency.markymark.model.composable.CodeBlock
 import com.moveagency.markymark.theme.LocalMarkyMarkTheme
+import dev.snipme.highlights.Highlights
+import dev.snipme.highlights.model.SyntaxLanguage
+import dev.snipme.highlights.model.SyntaxThemes
 
 @Composable
 fun MarkyMarkCode(
@@ -48,16 +54,38 @@ fun MarkyMarkCode(
             .then(modifier)
     ) {
         SelectionContainer {
-            Text(
-                modifier = Modifier
-                    .padding(style.outerPadding)
-                    .clip(style.shape)
-                    .then(if (colors.background.isSpecified) Modifier.background(colors.background) else Modifier)
-                    .padding(style.innerPadding),
-                color = colors.text,
-                style = style.textStyle,
-                text = node.content,
-            )
+            val textModifier = Modifier
+                .padding(style.outerPadding)
+                .clip(style.shape)
+                .then(if (colors.background.isSpecified) Modifier.background(colors.background) else Modifier)
+                .padding(style.innerPadding)
+
+            val language = remember(node.language) { node.language?.let(SyntaxLanguage::getByName) }
+
+            if (language == null) {
+                Text(
+                    modifier = textModifier,
+                    color = colors.text,
+                    style = style.textStyle,
+                    text = node.content,
+                )
+            } else {
+                val isDarkMode = isSystemInDarkTheme()
+                val highlights = remember(isDarkMode, language) {
+                    Highlights.Builder()
+                        .code(node.content)
+                        .language(language)
+                        .theme(SyntaxThemes.darcula(isDarkMode))
+                        .build()
+                }
+
+                CodeText(
+                    highlights = highlights,
+                    modifier = textModifier,
+                    color = colors.text,
+                    style = style.textStyle,
+                )
+            }
         }
     }
 }
@@ -68,15 +96,46 @@ private fun PreviewCodeBlock() {
     val node = CodeBlock(
         metadata = Root,
         content = """
+        val someText = "I am text"
+            
         fun something() {
-            println("I do things, promise")
+            println(someText.clean())   
         }
+        
+        fun String.clean() = trim()
         """.trimIndent(),
         language = "kotlin",
     )
 
     MarkyMarkCode(
         node = node,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White),
+    )
+}
+
+@Preview
+@Composable
+private fun PreviewCodeBlockNoLanguage() {
+    val node = CodeBlock(
+        metadata = Root,
+        content = """
+        val someText = "I am text"
+            
+        fun something() {
+            println(someText.clean())   
+        }
+        
+        fun String.clean() = trim()
+        """.trimIndent(),
+        language = null,
+    )
+
+    MarkyMarkCode(
+        node = node,
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White),
     )
 }

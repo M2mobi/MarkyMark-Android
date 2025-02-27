@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -185,9 +185,13 @@ __*Bold and Italic*__
 ### Code Blocks in Quotes
 
 > ```kotlin
+> val someText = "I am text"
+>     
 > fun something() {
->     println("Something happened!"
+>     println(someText.clean())   
 > }
+> 
+> fun String.clean() = trim()
 > ```
 
 ### Headers in Quotes
@@ -462,17 +466,25 @@ echo "done"
 ##### Language
 
 ```kotlin
-fun doSomething(aThing: String): Something {
-    return Something(aThing)
+val someText = "I am text"
+    
+fun something() {
+    println(someText.clean())   
 }
+
+fun String.clean() = trim()
 ```
 
 ##### Tilde
 
 ~~~Kotlin
-fun doNothing() {
+val someText = "I am text"
 
+fun something() {
+    println(someText.clean())   
 }
+
+fun String.clean() = trim()
 ~~~
 
 ## Horizontal rule

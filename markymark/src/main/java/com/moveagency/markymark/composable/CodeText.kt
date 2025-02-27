@@ -16,23 +16,39 @@
  * IN THE SOFTWARE.
  */
 
-package com.moveagency.markymark.composer
+package com.moveagency.markymark.composable
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
-import com.moveagency.markymark.model.composable.ComposableStableNode
-import kotlinx.collections.immutable.ImmutableList
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
+import dev.snipme.highlights.Highlights
+import generateAnnotatedString
 
-/**
- * The Composer is responsible for rendering [ComposableStableNode]s. See [DefaultMarkyMarkComposer] for the default
- * implementation.
- */
-@Stable
-interface MarkyMarkComposer {
+@Composable
+fun CodeText(
+    highlights: Highlights,
+    modifier: Modifier = Modifier,
+    color: Color = Color.Unspecified,
+    style: TextStyle = LocalTextStyle.current,
+) {
+    var textState by remember {
+        mutableStateOf(AnnotatedString(highlights.getCode()))
+    }
 
-    /**
-     * Create the composable elements from [nodes].
-     */
-    @Composable
-    fun CreateNodes(nodes: ImmutableList<ComposableStableNode>)
+    LaunchedEffect(highlights) {
+        textState = highlights
+            .getHighlights()
+            .generateAnnotatedString(highlights.getCode())
+    }
+
+    Text(
+        modifier = modifier,
+        text = textState,
+        color = color,
+        style = style,
+    )
 }

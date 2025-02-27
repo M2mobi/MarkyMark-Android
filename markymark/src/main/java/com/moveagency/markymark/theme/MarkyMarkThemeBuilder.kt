@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -252,18 +252,21 @@ class HeadingLevelStyleBuilder {
 class ImageStyleBuilder {
 
     var shape = RectangleShape
+    var fullWidth = false
 
     private var padding = Padding.Builder()
     private var caption = ImageCaptionStyleBuilder()
 
     fun include(builder: ImageStyleBuilder) {
         shape = builder.shape
+        fullWidth = builder.fullWidth
         padding = builder.padding
         caption = builder.caption
     }
 
     fun include(style: ImageStyle) {
         shape = style.shape
+        fullWidth = style.fullWidth
         padding.include(style.padding)
         caption.include(style.caption)
     }
@@ -274,6 +277,7 @@ class ImageStyleBuilder {
 
     internal fun build() = ImageStyle(
         shape = shape,
+        fullWidth = fullWidth,
         padding = padding.build(),
         caption = caption.build(),
     )

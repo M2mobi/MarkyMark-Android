@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -39,7 +39,7 @@ fun MarkyMarkRule(modifier: Modifier = Modifier) {
         modifier = modifier
             .padding(style.padding)
             .height(style.thickness)
-            .background(colors.background)
+            .background(color = colors.background, shape = style.shape)
     )
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -20,8 +20,9 @@ package com.moveagency.markymark.annotator
 
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.buildAnnotatedString
-import com.moveagency.markymark.composable.TAG_LINK
+import androidx.compose.ui.text.withLink
 import com.moveagency.markymark.model.annotated.*
 import com.moveagency.markymark.theme.AnnotatedStyles
 import kotlinx.collections.immutable.ImmutableList
@@ -87,17 +88,17 @@ open class DefaultMarkyMarkAnnotator : MarkyMarkAnnotator {
 
     protected open fun AnnotatedString.Builder.annotateLink(link: Link, styles: AnnotatedStyles) {
         pushStyle(styles.link)
-        pushStringAnnotation(tag = TAG_LINK, annotation = link.url)
-        annotateChildren(nodes = link.children, styles = styles)
-        pop()
+        withLink(LinkAnnotation.Url(link.url)) {
+            annotateChildren(nodes = link.children, styles = styles)
+        }
         pop()
     }
 
     protected open fun AnnotatedString.Builder.annotateEmailLink(link: EmailLink, styles: AnnotatedStyles) {
         pushStyle(styles.link)
-        pushStringAnnotation(tag = TAG_LINK, annotation = "$MailToPrefix${link.email}")
-        append(link.email)
-        pop()
+        withLink(LinkAnnotation.Url("$MailToPrefix${link.email}")) {
+            append(link.email)
+        }
         pop()
     }
 

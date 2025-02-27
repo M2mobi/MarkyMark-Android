@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -45,7 +45,7 @@ fun MarkyMarkList(
     Column(
         modifier = modifier
             .then(if (node.metadata.listLevel == 0) Modifier.padding(style.padding) else Modifier)
-            .padding(start = style.levelIndent)
+            .then(if (node.metadata.listLevel == 0) Modifier else Modifier.padding(start = style.levelIndent))
     ) {
         content()
     }

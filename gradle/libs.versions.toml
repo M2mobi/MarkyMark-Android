@@ -1,15 +1,16 @@
 [versions]
 accompanist = "0.32.0"
-activityCompose = "1.9.1"
+activityCompose = "1.9.2"
 android-gradle = "8.5.2"
 coil = "2.7.0"
-composeBom = "2024.06.00"
+composeBom = "2024.09.01"
 composeCompiler = "1.5.8"
 coreKtx = "1.13.1"
 detekt = "1.23.5"
 flexmark = "0.64.8"
 immutableCollections = "0.3.7"
 jvm = "17"
+kodeview = "0.9.0"
 kotlin = "2.0.10"
 
 [libraries]
@@ -31,6 +32,7 @@ flexmark-gfm-tasklist = { module = "com.vladsch.flexmark:flexmark-ext-gfm-taskli
 flexmark-superscript = { module = "com.vladsch.flexmark:flexmark-ext-superscript", version.ref = "flexmark" }
 flexmark-tables = { module = "com.vladsch.flexmark:flexmark-ext-tables", version.ref = "flexmark" }
 immutable-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "immutableCollections" }
+kodeview = { module = "dev.snipme:kodeview", version.ref = "kodeview" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle" }

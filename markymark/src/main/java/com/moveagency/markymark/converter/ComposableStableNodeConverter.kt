@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -18,7 +18,6 @@
 
 package com.moveagency.markymark.converter
 
-import android.util.Log
 import com.moveagency.markymark.converter.AnnotatedStableNodeConverter.convertToAnnotatedNode
 import com.moveagency.markymark.converter.AnnotatedStableNodeConverter.unescapeHtml
 import com.moveagency.markymark.converter.MarkyMarkConverter.convertToAnnotatedNodes
@@ -26,7 +25,11 @@ import com.moveagency.markymark.model.NodeMetadata
 import com.moveagency.markymark.model.annotated.AnnotatedStableNode
 import com.moveagency.markymark.model.annotated.ParagraphText
 import com.moveagency.markymark.model.composable.*
+import com.moveagency.markymark.model.composable.BlockQuote
 import com.moveagency.markymark.model.composable.CodeBlock
+import com.moveagency.markymark.model.composable.Image
+import com.moveagency.markymark.model.composable.ListBlock
+import com.moveagency.markymark.model.composable.Paragraph
 import com.moveagency.markymark.util.mapAsync
 import com.moveagency.markymark.util.mapAsyncIndexed
 import com.vladsch.flexmark.ast.*
@@ -56,17 +59,17 @@ object ComposableStableNodeConverter {
     internal suspend fun convertToStableNode(
         metadata: NodeMetadata,
         node: Node,
-    ): ComposableStableNode? = when (node) {
-        is Heading -> convertHeadingNode(metadata = metadata, heading = node)
-        is ThematicBreak -> Rule(metadata = metadata)
+    ): List<ComposableStableNode> = when (node) {
+        is Heading -> listOf(convertHeadingNode(metadata = metadata, heading = node))
+        is ThematicBreak -> listOf(Rule(metadata = metadata))
         is FlexParagraph -> convertParagraphNode(metadata = metadata, paragraph = node)
-        is FlexImage -> convertImageNode(metadata = metadata, image = node)
-        is FencedCodeBlock -> convertFencedCodeBlockNode(metadata = metadata, fencedCodeBlock = node)
-        is IndentedCodeBlock -> convertIndentedCodeBlockNode(metadata = metadata, indentedCodeBlock = node)
-        is FlexBlockQuote -> convertBlockQuoteNode(metadata = metadata, blockQuote = node)
-        is FlexTableBlock -> convertTableBlockNode(metadata = metadata, tableBlock = node)
-        is FlexListBlock -> convertListBlockNode(metadata = metadata, listBlock = node)
-        else -> convertTextNode(metadata = metadata, node = node)
+        is FlexImage -> listOf(convertImageNode(metadata = metadata, image = node))
+        is FencedCodeBlock -> listOf(convertFencedCodeBlockNode(metadata = metadata, fencedCodeBlock = node))
+        is IndentedCodeBlock -> listOf(convertIndentedCodeBlockNode(metadata = metadata, indentedCodeBlock = node))
+        is FlexBlockQuote -> listOf(convertBlockQuoteNode(metadata = metadata, blockQuote = node))
+        is FlexTableBlock -> listOf(convertTableBlockNode(metadata = metadata, tableBlock = node))
+        is FlexListBlock -> listOfNotNull(convertListBlockNode(metadata = metadata, listBlock = node))
+        else -> listOfNotNull(convertTextNode(metadata = metadata, node = node))
     }
 
     @Suppress("MagicNumber")
@@ -88,14 +91,48 @@ object ComposableStableNodeConverter {
         )
     }
 
-    private suspend fun convertParagraphNode(metadata: NodeMetadata, paragraph: FlexParagraph): Paragraph {
-        return Paragraph(
-            metadata = metadata,
-            children = convertParagraphChildren(
-                metadata = metadata.incParagraphLevel(),
-                children = paragraph.children,
-            )
-        )
+    private suspend fun convertParagraphNode(
+        metadata: NodeMetadata,
+        paragraph: FlexParagraph,
+    ): List<ComposableStableNode> {
+        return paragraph.children
+            .splitOnImage()
+            .mapAsync {
+                val singleNode = it.singleOrNull()
+                if (singleNode is FlexImage) {
+                    convertImageNode(metadata, singleNode)
+                } else {
+                    Paragraph(
+                        metadata = metadata,
+                        children = convertParagraphChildren(
+                            metadata = metadata.incParagraphLevel(),
+                            children = it,
+                        )
+                    )
+                }
+            }
+    }
+
+    private fun Iterable<Node>.splitOnImage(): List<List<Node>> {
+        val result = mutableListOf<List<Node>>()
+        var currentList = mutableListOf<Node>()
+
+        for (node in this) {
+            if (node is FlexImage) {
+                if (currentList.isNotEmpty()) {
+                    result += currentList
+                    currentList = mutableListOf()
+                }
+
+                result += listOf(node)
+            } else {
+                currentList += node
+            }
+        }
+
+        if (currentList.isNotEmpty()) result += currentList
+
+        return result
     }
 
     private suspend fun convertParagraphChildren(
@@ -103,7 +140,7 @@ object ComposableStableNodeConverter {
         children: Iterable<Node>,
     ): ImmutableList<ComposableStableNode> {
         return children.mapAsync { convertToStableNode(metadata = metadata, node = it) }
-            .filterNotNull()
+            .flatten()
             .bundleParagraphText(metadata)
     }
 
@@ -190,17 +227,13 @@ object ComposableStableNodeConverter {
         metadata: NodeMetadata,
         blockQuote: FlexBlockQuote,
     ): BlockQuote {
-        Log.d("[!!!]", blockQuote.chars.toString())
-        Log.d("[!!!]", blockQuote.children.map { it::class.simpleName }.toString())
         return BlockQuote(
             metadata = metadata,
             children = MarkyMarkConverter.convertToStableNodes(
                 nodes = blockQuote.children,
                 metadata = metadata.incQuoteLevel(),
             )
-        ).also {
-            Log.d("[!!!]", it.toString())
-        }
+        )
     }
 
     private suspend fun convertTableBlockNode(
@@ -319,7 +352,7 @@ object ComposableStableNodeConverter {
             item.children
                 .drop(1) // Drop first child as we converted that to list item above
                 .mapAsync { convertListNode(metadata = metadata, node = it) }
-                .filterNotNull()
+                .flatten()
                 .let(::addAll)
         }.toPersistentList()
     }
@@ -331,10 +364,12 @@ object ComposableStableNodeConverter {
     }
 
     private suspend fun convertListNode(metadata: NodeMetadata, node: Node) = when (node) {
-        is FlexListBlock -> convertListBlockNode(listBlock = node, metadata = metadata.incListLevel())
-            ?.let(ListBlock.ListEntry::ListNode)
+        is FlexListBlock -> listOfNotNull(
+            convertListBlockNode(listBlock = node, metadata = metadata.incListLevel())
+                ?.let(ListBlock.ListEntry::ListNode)
+        )
         else -> convertToStableNode(node = node, metadata = metadata.incLevel())
-            ?.let(ListBlock.ListEntry::ListNode)
+            .map(ListBlock.ListEntry::ListNode)
     }
 
     private suspend fun convertTextNode(node: Node, metadata: NodeMetadata): TextNode? {

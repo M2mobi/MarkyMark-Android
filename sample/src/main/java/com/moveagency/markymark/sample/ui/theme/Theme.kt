@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -170,7 +170,7 @@ private val MarkyMarkTheme by lazy {
                     h1 {
                         textStyle = H1
                         padding {
-                            top = Spacing.x1
+                            top = Spacing.x2
                             bottom = Spacing.x1_5
                         }
                     }
@@ -178,7 +178,7 @@ private val MarkyMarkTheme by lazy {
                     h2 {
                         textStyle = H2
                         padding {
-                            top = Spacing.x1
+                            top = Spacing.x2
                             bottom = Spacing.x1_5
                         }
                     }
@@ -186,7 +186,7 @@ private val MarkyMarkTheme by lazy {
                     h3 {
                         textStyle = H3
                         padding {
-                            top = Spacing.x1
+                            top = Spacing.x2
                             bottom = Spacing.x1_5
                         }
                     }
@@ -194,7 +194,7 @@ private val MarkyMarkTheme by lazy {
                     h4 {
                         textStyle = H4
                         padding {
-                            top = Spacing.x0_5
+                            top = Spacing.x1
                             bottom = Spacing.x1
                         }
                     }
@@ -202,7 +202,7 @@ private val MarkyMarkTheme by lazy {
                     h5 {
                         textStyle = H5
                         padding {
-                            top = Spacing.x0_5
+                            top = Spacing.x1
                             bottom = Spacing.x1
                         }
                     }
@@ -210,7 +210,7 @@ private val MarkyMarkTheme by lazy {
                     h6 {
                         textStyle = H6
                         padding {
-                            top = Spacing.x0_5
+                            top = Spacing.x1
                             bottom = Spacing.x1
                         }
                     }
@@ -263,7 +263,11 @@ private val MarkyMarkTheme by lazy {
                     header {
                         divider { thickness = 2.dp }
 
-                        cell { textStyle = TableHeader }
+                        cell {
+                            textStyle = TableHeader
+
+                            padding { horizontal = Spacing.x2 }
+                        }
                     }
 
                     body {

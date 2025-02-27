@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -18,6 +18,7 @@
 
 package com.moveagency.markymark.composable
 
+import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -67,7 +68,11 @@ private fun CaptionedImage(
     modifier: Modifier = Modifier,
 ) {
     val colors = LocalMarkyMarkColors.current.image
-    Column(modifier.padding(style.padding)) {
+    Column(
+        modifier = modifier
+            .padding(style.padding)
+            .focusGroup(),
+    ) {
         AsyncImage(
             model = node.url,
             contentDescription = node.altText,
