@@ -184,14 +184,21 @@ __*Bold and Italic*__
 
 ### Code Blocks in Quotes
 
-> ```kotlin
-> val someText = "I am text"
->     
-> fun something() {
->     println(someText.clean())   
+> ```swift
+> class Greeting {
+>     var name: String
+> 
+>     init(name: String) {
+>         self.name = name
+>     }
+> 
+>     func sayHello() {
+>         print("Hello, \(name)!")
+>     }
 > }
 > 
-> fun String.clean() = trim()
+> let greeting = Greeting(name: "Alice")
+> greeting.sayHello()
 > ```
 
 ### Headers in Quotes
@@ -412,7 +419,7 @@ __*Bold and Italic*__
 
 1. First list item
 
-    ```sh
+    ```shell
     sh ./gradlew assemble
     ```
 
@@ -477,14 +484,19 @@ fun String.clean() = trim()
 
 ##### Tilde
 
-~~~Kotlin
-val someText = "I am text"
+~~~ruby
+class Greeting
+  def initialize(name)
+    @name = name
+  end
 
-fun something() {
-    println(someText.clean())   
-}
+  def say_hello
+    puts "Hello, #{@name}!"
+  end
+end
 
-fun String.clean() = trim()
+greeting = Greeting.new("Alice")
+greeting.say_hello
 ~~~
 
 ## Horizontal rule

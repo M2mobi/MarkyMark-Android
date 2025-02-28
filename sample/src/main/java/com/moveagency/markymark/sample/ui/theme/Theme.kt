@@ -57,6 +57,7 @@ import com.moveagency.markymark.theme.list.UnorderedListItemStyle.Indicator.Indi
 import com.moveagency.markymark.theme.list.UnorderedListItemStyle.Indicator.Shape.Oval
 import com.moveagency.markymark.theme.list.UnorderedListItemStyle.Indicator.Shape.Rectangle
 import com.moveagency.markymark.theme.markyMarkTheme
+import dev.snipme.highlights.model.SyntaxThemes
 
 private val LightColors by lazy {
     MarkyMarkColors.Builder().apply {
@@ -69,6 +70,7 @@ private val LightColors by lazy {
         codeBlock {
             background = OceanBlue
             text = Black
+            syntaxTheme = SyntaxThemes.darcula()
         }
 
         table {
@@ -119,6 +121,7 @@ private val DarkColors by lazy {
         codeBlock {
             background = OceanBlue
             text = Black
+            syntaxTheme = SyntaxThemes.darcula()
         }
 
         table {

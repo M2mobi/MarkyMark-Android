@@ -39,7 +39,6 @@ import com.moveagency.markymark.model.composable.CodeBlock
 import com.moveagency.markymark.theme.LocalMarkyMarkTheme
 import dev.snipme.highlights.Highlights
 import dev.snipme.highlights.model.SyntaxLanguage
-import dev.snipme.highlights.model.SyntaxThemes
 
 @Composable
 fun MarkyMarkCode(
@@ -70,23 +69,27 @@ fun MarkyMarkCode(
                     text = node.content,
                 )
             } else {
-                val isDarkMode = isSystemInDarkTheme()
-                val highlights = remember(isDarkMode, language) {
-                    Highlights.Builder()
-                        .code(node.content)
-                        .language(language)
-                        .theme(SyntaxThemes.darcula(isDarkMode))
-                        .build()
-                }
-
                 CodeText(
-                    highlights = highlights,
+                    highlights = rememberHighlights(language, node.content),
                     modifier = textModifier,
                     color = colors.text,
                     style = style.textStyle,
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun rememberHighlights(language: SyntaxLanguage, code: String): Highlights {
+    val colors = LocalMarkyMarkColors.current.codeBlock
+    val isDarkMode = isSystemInDarkTheme()
+    return remember(colors, isDarkMode, language) {
+        Highlights.Builder()
+            .code(code)
+            .language(language)
+            .theme(colors.syntaxTheme)
+            .build()
     }
 }
 

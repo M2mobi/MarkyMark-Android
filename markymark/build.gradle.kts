@@ -105,5 +105,5 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.coil.compose)
 
-    implementation(libs.kodeview)
+    api(libs.kodeview)
 }

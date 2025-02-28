@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Move
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -25,6 +25,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import com.moveagency.markymark.theme.MarkyMarkThemeBuilderMarker
+import dev.snipme.highlights.model.SyntaxTheme
+import dev.snipme.highlights.model.SyntaxThemes
 
 /**
  * Represents the color scheme for code block elements.
@@ -36,6 +38,7 @@ import com.moveagency.markymark.theme.MarkyMarkThemeBuilderMarker
 data class CodeBlockColors private constructor(
     val background: Color,
     val text: Color,
+    val syntaxTheme: SyntaxTheme,
 ) {
 
     /**
@@ -55,6 +58,12 @@ data class CodeBlockColors private constructor(
         var text = Black
 
         /**
+         * The theme used for the syntax highlighting of the code block. See
+         * [SyntaxThemes] for all available themes.  Default is [SyntaxThemes.default].
+         */
+        var syntaxTheme = SyntaxThemes.default()
+
+        /**
          * Includes another [Builder] instance's configuration into `this` builder.
          *
          * This will override all properties with the ones from the provided [builder].
@@ -64,6 +73,7 @@ data class CodeBlockColors private constructor(
         fun include(builder: Builder) {
             background = builder.background
             text = builder.text
+            syntaxTheme = builder.syntaxTheme
         }
 
         /**
@@ -76,6 +86,7 @@ data class CodeBlockColors private constructor(
         fun include(colors: CodeBlockColors) {
             background = colors.background
             text = colors.text
+            syntaxTheme = colors.syntaxTheme
         }
 
         /**
@@ -86,6 +97,7 @@ data class CodeBlockColors private constructor(
         internal fun build() = CodeBlockColors(
             background = background,
             text = text,
+            syntaxTheme = syntaxTheme,
         )
     }
 }
