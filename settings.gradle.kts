@@ -1,6 +1,6 @@
 rootProject.name = "MarkyMark-Android"
 include(":markymark")
-include(":sample")
+//include(":sample")
 
 pluginManagement {
     repositories {
