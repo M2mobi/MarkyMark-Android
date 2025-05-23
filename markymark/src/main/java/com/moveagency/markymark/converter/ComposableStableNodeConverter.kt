@@ -291,7 +291,6 @@ object ComposableStableNodeConverter {
         )
     }
 
-    @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
     private suspend fun convertToTableCell(
         metadata: NodeMetadata,
         tableCell: FlexTableCell,
@@ -302,6 +301,7 @@ object ComposableStableNodeConverter {
                 FlexTableCell.Alignment.LEFT -> TableBlock.TableCell.Alignment.Start
                 FlexTableCell.Alignment.CENTER -> TableBlock.TableCell.Alignment.Center
                 FlexTableCell.Alignment.RIGHT -> TableBlock.TableCell.Alignment.End
+                null -> TableBlock.TableCell.Alignment.Start
             }
         )
     }

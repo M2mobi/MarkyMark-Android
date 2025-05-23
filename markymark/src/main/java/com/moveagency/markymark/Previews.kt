@@ -576,6 +576,6 @@ info@moveagency.com
 | marketing@moveagency.com  |
 
 | __Vacancies__       |
-|:--------------------|
+|---------------------|
 | jobs@moveagency.com |
     """
