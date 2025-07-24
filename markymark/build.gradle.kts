@@ -1,3 +1,21 @@
+/*
+ * Copyright © 2025 Framna
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+ * to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+ * the Software.
+ *
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+ * THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ */
+
 @file:Suppress("UnstableApiUsage")
 
 plugins {
@@ -48,6 +66,7 @@ android {
             "-P",
             "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${rootDir.absolutePath}/compose_metrics"
         )
+        jvmTarget = "17"
     }
 
     lint {
@@ -59,37 +78,11 @@ android {
     }
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("mavenRelease") {
-                groupId = BuildConstants.Namespace
-                version = BuildConstants.VersionName
-                from(components.getByName("release"))
-                pom {
-                    name.set("MarkyMark-Android")
-                    description.set("Library for converting Markdown to Android Jetpack Compose elements")
-                    url.set("https://git.m2mobi.com/projects/ML/repos/m2utility/browse")
-                    licenses {
-                        license {
-                            name.set("The MIT License (MIT)")
-                            url.set("https://raw.githubusercontent.com/Move-Agency/MarkyMark-Android/v3/develop/LICENSE")
-                        }
-                    }
-                    organization {
-                        name.set("Move Agency")
-                        url.set("https://www.moveagency.com/")
-                    }
-                }
-            }
-        }
-    }
-}
-
 dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.androidx.core.ktx)
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.compose.material3)
 

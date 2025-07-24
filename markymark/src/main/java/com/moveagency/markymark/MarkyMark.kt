@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Framna
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -24,16 +24,35 @@ import com.moveagency.markymark.theme.LocalMarkyMarkTheme
 import com.moveagency.markymark.theme.MarkyMarkTheme
 
 /**
- * Helper object for accessing [LocalMarkyMarkOptions] & [LocalMarkyMarkTheme].
+ * Central access point for MarkyMark configuration and theming.
+ *
+ * This object provides access to the current [MarkyMarkOptions] and [MarkyMarkTheme]
+ * through composition locals, making them available throughout the composition hierarchy.
+ * It serves as a convenient way to access markdown rendering configuration and styling
+ * from any composable function.
  */
 object MarkyMark {
 
+    /**
+     * The current markdown rendering options.
+     *
+     * This property provides access to the current [MarkyMarkOptions] from the [LocalMarkyMarkOptions]
+     * composition local. It includes configuration for the FlexMark parser, custom composers,
+     * and annotators used for rendering markdown content.
+     */
     @Suppress("ObjectPropertyNaming")
     val options: MarkyMarkOptions
         @Composable
         @ReadOnlyComposable
         get() = LocalMarkyMarkOptions.current
 
+    /**
+     * The current markdown styling theme.
+     *
+     * This property provides access to the current [MarkyMarkTheme] from the [LocalMarkyMarkTheme]
+     * composition local. It includes styling for all markdown elements, including root-level
+     * styling, element-specific styles, and color schemes.
+     */
     @Suppress("ObjectPropertyNaming")
     val theme: MarkyMarkTheme
         @Composable

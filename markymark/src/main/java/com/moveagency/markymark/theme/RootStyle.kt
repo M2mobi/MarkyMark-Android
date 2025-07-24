@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Framna
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -20,7 +20,65 @@ package com.moveagency.markymark.theme
 
 import androidx.compose.runtime.Immutable
 
+/**
+ * Theming attributes used for the root level of the markdown content.
+ *
+ * This class defines styling properties that apply to the entire markdown content.
+ *
+ * @property screenPadding The padding applied to the entire markdown content.
+ */
 @Immutable
 data class RootStyle(
     val screenPadding: Padding,
-)
+) {
+
+    /**
+     * Builder class for constructing instances of [RootStyle].
+     */
+    @MarkyMarkThemeBuilderMarker
+    class RootBuilder {
+
+        /**
+         * Builder for configuring the padding applied to the entire markdown content.
+         */
+        private var padding: Padding.Builder = Padding.Builder()
+
+        /**
+         * Includes another [RootBuilder] instance's configuration into `this` builder.
+         *
+         * This will override the padding configuration with the one from the provided [builder].
+         *
+         * @param builder The builder whose configuration should be included.
+         */
+        fun include(builder: RootBuilder) {
+            padding = builder.padding
+        }
+
+        /**
+         * Includes the configuration from an existing [RootStyle] object into this builder.
+         *
+         * This will include the screen padding from the provided [root].
+         *
+         * @param root The [RootStyle] instance whose configuration should be included.
+         */
+        fun include(root: RootStyle) {
+            padding.include(root.screenPadding)
+        }
+
+        /**
+         * Configures the padding applied to the entire markdown content.
+         *
+         * @param block A lambda to configure the [Padding.Builder].
+         */
+        fun padding(block: Padding.Builder.() -> Unit) = block(padding)
+
+        /**
+         * Builds a new [RootStyle] instance with the current configuration.
+         *
+         * @return A [RootStyle] object with the set properties.
+         */
+        internal fun build() = RootStyle(
+            screenPadding = padding.build(),
+        )
+    }
+}

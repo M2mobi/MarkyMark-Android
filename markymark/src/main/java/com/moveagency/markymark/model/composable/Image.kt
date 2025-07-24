@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Framna
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -24,16 +24,31 @@ import com.moveagency.markymark.model.NodeMetadata
 /**
  * Represents a Markdown image. Mapped from [Image][com.vladsch.flexmark.ast.Image].
  *
- * __Syntax:__
+ * __Basic Syntax:__
  *
  * ```markdown
- * ![alt text](https://www.sample.com/image "title")
- * ![alt text](https://www.sample.com/image)
+ * ![alt text](https://example.com/image.jpg "optional title")
  * ```
  *
- * For details see the [Markdown guide](https://www.markdownguide.org/basic-syntax#images-1).
+ * The syntax consists of:
+ * - An exclamation mark `!` to indicate an image
+ * - Square brackets `[]` containing the alternative text (displayed if the image cannot be loaded)
+ * - Parentheses `()` containing the image URL and an optional title in quotes
  *
- * *Note: Inline images are not supported.*
+ * __Important Notes:__
+ *
+ * - Inline images (images within paragraph text) are not supported in this implementation
+ *
+ * For more details, see the [Markdown guide](https://www.markdownguide.org/basic-syntax#images-1).
+ *
+ * @property metadata Contains information about this image node, including its position in the
+ *   document hierarchy and any additional metadata.
+ * @property url The URL or path to the image file. Can be an absolute URL, a relative path, or
+ *   a data URI.
+ * @property altText The alternative text for the image, displayed if the image cannot be loaded
+ *   or for accessibility purposes. Can be null if not provided in the Markdown.
+ * @property title An optional title for the image, typically displayed as a tooltip when hovering
+ *   over the image. Can be null if not provided in the Markdown.
  */
 @Immutable
 data class Image(

@@ -1,17 +1,18 @@
 [versions]
 accompanist = "0.32.0"
 activityCompose = "1.9.2"
-android-gradle = "8.5.2"
+android-gradle = "8.11.1"
 coil = "2.7.0"
 composeBom = "2024.09.01"
 composeCompiler = "1.5.8"
 coreKtx = "1.13.1"
 detekt = "1.23.5"
 flexmark = "0.64.8"
-immutableCollections = "0.3.7"
+immutableCollections = "0.4.0"
 jvm = "17"
 kodeview = "0.9.0"
-kotlin = "2.0.10"
+kotlin = "2.2.0"
+coreKtxVersion = "1.16.0"
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
@@ -33,6 +34,7 @@ flexmark-superscript = { module = "com.vladsch.flexmark:flexmark-ext-superscript
 flexmark-tables = { module = "com.vladsch.flexmark:flexmark-ext-tables", version.ref = "flexmark" }
 immutable-collections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "immutableCollections" }
 kodeview = { module = "dev.snipme:kodeview", version.ref = "kodeview" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtxVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle" }

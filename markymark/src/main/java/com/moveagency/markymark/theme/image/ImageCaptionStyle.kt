@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Framna
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -20,12 +20,96 @@ package com.moveagency.markymark.theme.image
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.text.TextStyle
+import com.moveagency.markymark.theme.MarkyMarkThemeBuilderMarker
 import com.moveagency.markymark.theme.Padding
 
+/**
+ * Styling configuration for image captions in markdown.
+ *
+ * This class defines the visual appearance of captions that accompany images,
+ * including spacing, typography, and horizontal alignment.
+ *
+ * *Note: Captions do not support inline formatting.*
+ *
+ * @property padding The spacing around the caption text.
+ * @property textStyle The typography style applied to the caption text.
+ * @property alignment The horizontal alignment of the caption (start, center, or end).
+ */
 @Immutable
 data class ImageCaptionStyle(
     val padding: Padding,
     val textStyle: TextStyle,
     val alignment: Alignment.Horizontal,
-)
+) {
+
+    /**
+     * Builder class for constructing instances of [ImageCaptionStyle].
+     *
+     * This builder provides methods to configure the styling for image captions
+     * in a type-safe, fluent manner.
+     */
+    @MarkyMarkThemeBuilderMarker
+    class Builder {
+
+        /**
+         * Builder for configuring the padding around the caption text.
+         */
+        private var padding = Padding.Builder()
+
+        /**
+         * The typography style applied to the caption text.
+         */
+        var textStyle = TextStyle()
+
+        /**
+         * The horizontal alignment of the caption. Default is [Start].
+         */
+        var alignment = Start
+
+        /**
+         * Includes another [Builder] instance's configuration into `this` builder.
+         *
+         * This will override all properties with the ones from the provided [builder].
+         *
+         * @param builder The builder whose configuration should be included.
+         */
+        fun include(builder: Builder) {
+            padding = builder.padding
+            textStyle = builder.textStyle
+            alignment = builder.alignment
+        }
+
+        /**
+         * Includes the configuration from an existing [ImageCaptionStyle] object into this builder.
+         *
+         * This will include the padding, text style, and alignment from the provided [style].
+         *
+         * @param style The [ImageCaptionStyle] instance whose configuration should be included.
+         */
+        fun include(style: ImageCaptionStyle) {
+            padding.include(style.padding)
+            textStyle = style.textStyle
+            alignment = style.alignment
+        }
+
+        /**
+         * Configures the padding around the caption text.
+         *
+         * @param block A lambda to configure the [Padding.Builder].
+         */
+        fun padding(block: Padding.Builder.() -> Unit) = block(padding)
+
+        /**
+         * Builds a new [ImageCaptionStyle] instance with the current configuration.
+         *
+         * @return An [ImageCaptionStyle] object with the configured properties.
+         */
+        internal fun build() = ImageCaptionStyle(
+            padding = padding.build(),
+            textStyle = textStyle,
+            alignment = alignment,
+        )
+    }
+}

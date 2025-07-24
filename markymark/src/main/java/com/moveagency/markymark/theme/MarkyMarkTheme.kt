@@ -1,5 +1,5 @@
 /*
- * Copyright © 2024 Move
+ * Copyright © 2025 Framna
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -23,12 +23,28 @@ package com.moveagency.markymark.theme
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 
+/**
+ * CompositionLocal containing the current [MarkyMarkTheme].
+ *
+ * This provides access to the theme's styling properties throughout the composition hierarchy.
+ * The default value is a minimal theme created with an empty [markyMarkTheme] builder.
+ */
 val LocalMarkyMarkTheme = staticCompositionLocalOf { markyMarkTheme {} }
 
+/**
+ * Theme for styling markdown content in Compose applications.
+ *
+ * This class aggregates all the styling components needed to render markdown content
+ * with a consistent visual appearance. It includes root-level styling, element-specific
+ * styles, and color schemes.
+ *
+ * @property root Root-level styling properties that apply to the entire markdown content.
+ * @property styles Collection of style configurations for all markdown elements.
+ * @property colors Color scheme used for rendering markdown elements.
+ */
 @Immutable
 data class MarkyMarkTheme(
     val root: RootStyle,
     val styles: MarkyMarkStyles,
     val colors: MarkyMarkColors,
 )
-

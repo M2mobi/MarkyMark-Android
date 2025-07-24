@@ -1,5 +1,5 @@
 /*
- * Copyright © 2025 Move
+ * Copyright © 2025 Framna
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the “Software”), to deal in the Software without restriction, including without limitation
@@ -28,6 +28,12 @@ import com.moveagency.markymark.composable.Markdown
 import com.moveagency.markymark.composer.MarkyMarkComposer
 import com.moveagency.markymark.theme.MarkyMarkTheme
 
+/**
+ * Preview composable for demonstrating MarkyMark's markdown rendering capabilities.
+ *
+ * This composable renders the [PreviewMarkdown] constant using the default [MarkyMarkTheme]
+ * and configuration.
+ */
 @Preview
 @Composable
 internal fun Preview() {
@@ -38,8 +44,27 @@ internal fun Preview() {
 }
 
 /**
- * Contains all syntax supported by MarkyMark. Made public so you can include it in a debug screen and verify your
- * custom [MarkyMarkTheme], [MarkyMarkComposer], or [MarkyMarkAnnotator]. See the sample for details.
+ * Comprehensive showcase of all markdown syntax supported by MarkyMark.
+ *
+ * This constant contains examples of every markdown feature supported by the library, including:
+ * - Headings (h1-h6) with styling
+ * - Paragraphs with various formatting
+ * - Emphasis (bold, italic, strikethrough)
+ * - Block quotes (single, nested, with formatting)
+ * - Lists (ordered, unordered, nested, task lists)
+ * - Code blocks (inline, fenced, with language highlighting)
+ * - Horizontal rules
+ * - Links (with titles and formatting)
+ * - Images (with and without captions)
+ * - Tables (with various alignments)
+ * - Superscript and subscript
+ * - Emojis
+ *
+ * This constant is made public so you can include it in debug screens to verify your
+ * custom [MarkyMarkTheme], [MarkyMarkComposer], or [MarkyMarkAnnotator] implementations.
+ *
+ * See the sample application for examples of how to use this constant in your own debugging
+ * and testing workflows.
  */
 @Suppress("MaxLineLength")
 const val PreviewMarkdown =
@@ -474,7 +499,7 @@ echo "done"
 
 ```kotlin
 val someText = "I am text"
-    
+
 fun something() {
     println(someText.clean())   
 }

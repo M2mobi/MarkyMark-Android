@@ -1,5 +1,5 @@
 <component name="CopyrightManager">
-  <settings>
+  <settings default="MIT Move">
     <module2copyright>
       <element module="MarkyMarkSource" copyright="MIT Move" />
     </module2copyright>
